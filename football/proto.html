@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Football Scorecard</title>
+    <style>
+        :root {
+            --bg: #8a2be2;
+            --board: #000;
+            --text: #fff;
+            --btn-bg: #f4f4f4;
+            --btn-text: #000;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Arial Black", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px 20px 80px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        h1 {
+            margin: 0 0 30px;
+            font-size: 38px;
+            letter-spacing: 0.5px;
+        }
+
+        .labels {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .score-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 0 auto 30px;
+            width: fit-content;
+        }
+
+        .score {
+            background: var(--board);
+            color: var(--text);
+            width: 160px;
+            height: 140px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            font-size: 120px;
+            font-weight: 700;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+        }
+
+        .btn-row {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 6px 12px;
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid #888;
+            border-radius: 2px;
+            background: var(--btn-bg);
+            color: var(--btn-text);
+            cursor: pointer;
+            transition: transform 0.08s ease, box-shadow 0.08s ease;
+        }
+
+        button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) inset;
+        }
+
+        @media (max-width: 600px) {
+            .labels {
+                gap: 40px;
+                font-size: 26px;
+            }
+
+            .score {
+                width: 120px;
+                height: 110px;
+                font-size: 90px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Football Scorecard</h1>
+
+        <div class="labels">
+            <div>HOME</div>
+            <div>GUEST</div>
+        </div>
+
+        <div class="score-row">
+            <div id="homeScore" class="score">0</div>
+            <div id="guestScore" class="score">0</div>
+        </div>
+
+        <div class="btn-row">
+            <button data-team="home" data-val="1">+1</button>
+            <button data-team="home" data-val="2">+2</button>
+            <button data-team="home" data-val="3">+3</button>
+        </div>
+
+        <div class="btn-row">
+            <button data-team="guest" data-val="1">+1</button>
+            <button data-team="guest" data-val="2">+2</button>
+            <button data-team="guest" data-val="3">+3</button>
+        </div>
+    </div>
+
+    <script>
+        const scores = { home: 0, guest: 0 };
+        const els = {
+            home: document.getElementById('homeScore'),
+            guest: document.getElementById('guestScore'),
+        };
+
+        function update(team, delta) {
+            scores[team] += delta;
+            if (scores[team] < 0) scores[team] = 0;
+            els[team].textContent = scores[team];
+        }
+
+        document.addEventListener('click', (e) => {
+            if (e.target.tagName !== 'BUTTON') return;
+            const team = e.target.dataset.team;
+            const val = Number(e.target.dataset.val);
+            if (!team || isNaN(val)) return;
+            update(team, val);
+        });
+    </script>
+</body>
+
+</html>
