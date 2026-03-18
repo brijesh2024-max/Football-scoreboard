@@ -137,6 +137,10 @@
             <button data-team="guest" data-val="2">+2</button>
             <button data-team="guest" data-val="3">+3</button>
         </div>
+
+        <div class="btn-row">
+            <button id="resetBtn">Reset</button>
+        </div>
     </div>
 
     <script>
@@ -152,12 +156,32 @@
             scoreElements[team].textContent = teamScores[team];
         }
 
-        document.addEventListener('click', (event) => {
-            if (event.target.tagName !== 'BUTTON') return;
-            const team = event.target.dataset.team;
-            const scoreChange = Number(event.target.dataset.val);
-            if (!team || isNaN(scoreChange)) return;
-            updateScore(team, scoreChange);
+        function resetScores() {
+            teamScores.home = 0;
+            teamScores.guest = 0;
+            scoreElements.home.textContent = 0;
+            scoreElements.guest.textContent = 0;
+        }
+
+        // Scope the listener to the container rather than the whole document so
+        // the event doesn't have to bubble all the way up through every ancestor.
+        document.querySelector('.container').addEventListener('click', (event) => {
+            // closest() handles clicks on any child elements inside a button and
+            // also limits matches to buttons with a data-team attribute.
+            const btn = event.target.closest('button[data-team]');
+            if (btn) {
+                const team = btn.dataset.team;
+                // parseInt with explicit radix 10 is the correct way to parse
+                // integer strings and avoids the implicit coercion pitfalls of Number().
+                const scoreChange = parseInt(btn.dataset.val, 10);
+                if (isNaN(scoreChange)) return;
+                updateScore(team, scoreChange);
+                return;
+            }
+
+            if (event.target.id === 'resetBtn') {
+                resetScores();
+            }
         });
     </script>
 </body>
