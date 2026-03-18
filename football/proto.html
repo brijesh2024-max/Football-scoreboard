@@ -140,24 +140,24 @@
     </div>
 
     <script>
-        const scores = { home: 0, guest: 0 };
-        const els = {
+        const teamScores = { home: 0, guest: 0 };
+        const scoreElements = {
             home: document.getElementById('homeScore'),
             guest: document.getElementById('guestScore'),
         };
 
-        function update(team, delta) {
-            scores[team] += delta;
-            if (scores[team] < 0) scores[team] = 0;
-            els[team].textContent = scores[team];
+        function updateScore(team, scoreDelta) {
+            teamScores[team] += scoreDelta;
+            if (teamScores[team] < 0) teamScores[team] = 0;
+            scoreElements[team].textContent = teamScores[team];
         }
 
-        document.addEventListener('click', (e) => {
-            if (e.target.tagName !== 'BUTTON') return;
-            const team = e.target.dataset.team;
-            const val = Number(e.target.dataset.val);
-            if (!team || isNaN(val)) return;
-            update(team, val);
+        document.addEventListener('click', (event) => {
+            if (event.target.tagName !== 'BUTTON') return;
+            const team = event.target.dataset.team;
+            const scoreIncrement = Number(event.target.dataset.val);
+            if (!team || isNaN(scoreIncrement)) return;
+            updateScore(team, scoreIncrement);
         });
     </script>
 </body>
