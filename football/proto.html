@@ -155,9 +155,9 @@
         document.addEventListener('click', (event) => {
             if (event.target.tagName !== 'BUTTON') return;
             const team = event.target.dataset.team;
-            const scoreIncrement = Number(event.target.dataset.val);
-            if (!team || isNaN(scoreIncrement)) return;
-            updateScore(team, scoreIncrement);
+            const scoreChange = Number(event.target.dataset.val);
+            if (!team || isNaN(scoreChange)) return;
+            updateScore(team, scoreChange);
         });
     </script>
 </body>
